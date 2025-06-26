@@ -5,15 +5,20 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:handyman_provider_flutter/app_theme.dart';
 import 'package:handyman_provider_flutter/auth/sign_in_screen.dart';
 import 'package:handyman_provider_flutter/components/app_widgets.dart';
 import 'package:handyman_provider_flutter/components/selected_item_widget.dart';
+import 'package:handyman_provider_flutter/generated/assets.dart';
 import 'package:handyman_provider_flutter/main.dart';
 import 'package:handyman_provider_flutter/models/user_type_response.dart';
 import 'package:handyman_provider_flutter/networks/rest_apis.dart';
+import 'package:handyman_provider_flutter/utils/colors.dart';
 import 'package:handyman_provider_flutter/utils/common.dart';
 import 'package:handyman_provider_flutter/utils/configs.dart';
 import 'package:handyman_provider_flutter/utils/constant.dart';
+import 'package:handyman_provider_flutter/utils/font_utils.dart';
 import 'package:handyman_provider_flutter/utils/extensions/num_extenstions.dart';
 import 'package:handyman_provider_flutter/utils/extensions/string_extension.dart';
 import 'package:handyman_provider_flutter/utils/images.dart';
@@ -60,7 +65,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   String? selectedUserTypeValue;
 
-  List<UserTypeData> commissionTypeList = [UserTypeData(name: languages.lblSelectCommission, id: -1)];
+  List<UserTypeData> commissionTypeList = [
+    UserTypeData(name: languages.lblSelectCommission, id: -1)
+  ];
 
   UserTypeData? selectedUserCommissionType;
 
@@ -116,7 +123,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               child: BackWidget(color: context.iconColor)),
           scrolledUnderElevation: 0,
-          systemOverlayStyle: SystemUiOverlayStyle(statusBarIconBrightness: appStore.isDarkMode ? Brightness.light : Brightness.dark, statusBarColor: context.scaffoldBackgroundColor),
+          systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarIconBrightness:
+                  appStore.isDarkMode ? Brightness.light : Brightness.dark,
+              statusBarColor: context.scaffoldBackgroundColor),
         ),
         body: Stack(
           alignment: AlignmentDirectional.center,
@@ -135,7 +145,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
             ),
-            Observer(builder: (context) => LoaderWidget().center().visible(appStore.isLoading))
+            Observer(
+                builder: (context) =>
+                    LoaderWidget().center().visible(appStore.isLoading))
           ],
         ),
       ),
@@ -148,18 +160,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Column(
       children: [
         (context.height() * 0.12).toInt().height,
-        Container(
-          width: 85,
-          height: 85,
-          decoration: boxDecorationWithRoundedCorners(boxShape: BoxShape.circle, backgroundColor: primaryColor),
-          child: Image.asset(profile, height: 45, width: 45, color: white),
+        // Colorful Logo
+        Image.asset(
+          Assets.assetsLogotype,
+          height: 120,
         ),
-        16.height,
-        Text(languages.lblSignupTitle, style: boldTextStyle(size: 18)),
+        24.height,
+        // Colorful Welcome Text
+        Text(
+          "Create Account",
+          style: FontUtils.headlineStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: context.brandColors.brandBlue,
+          ),
+        ),
         16.height,
         Text(
           languages.lblSignupSubtitle,
-          style: secondaryTextStyle(size: 14),
+          style: FontUtils.bodyStyle(
+            fontSize: 16,
+            color: appTextSecondaryColor,
+          ),
           textAlign: TextAlign.center,
         ).paddingSymmetric(horizontal: 32),
         32.height,
@@ -177,8 +199,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
           focus: fNameFocus,
           nextFocus: lNameFocus,
           errorThisFieldRequired: languages.hintRequired,
-          decoration: inputDecoration(context, hint: languages.hintFirstNameTxt),
-          suffix: profile.iconImage(size: 10).paddingAll(14),
+          decoration: inputDecoration(context, hint: languages.hintFirstNameTxt)
+              .copyWith(
+            labelStyle: primaryTextStyle(color: context.brandColors.brandGreen),
+            enabledBorder: UnderlineInputBorder(
+              borderSide:
+                  BorderSide(color: context.brandColors.brandGreen, width: 2),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide:
+                  BorderSide(color: context.brandColors.brandGreen, width: 2),
+            ),
+          ),
+          suffix: profile
+              .iconImage(size: 10, color: context.brandColors.brandGreen)
+              .paddingAll(14),
         ),
         16.height,
         // Last name text field...
@@ -188,8 +223,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
           focus: lNameFocus,
           nextFocus: userNameFocus,
           errorThisFieldRequired: languages.hintRequired,
-          decoration: inputDecoration(context, hint: languages.hintLastNameTxt),
-          suffix: profile.iconImage(size: 10).paddingAll(14),
+          decoration: inputDecoration(context, hint: languages.hintLastNameTxt)
+              .copyWith(
+            labelStyle: primaryTextStyle(color: context.brandColors.brandGreen),
+            enabledBorder: UnderlineInputBorder(
+              borderSide:
+                  BorderSide(color: context.brandColors.brandGreen, width: 2),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide:
+                  BorderSide(color: context.brandColors.brandGreen, width: 2),
+            ),
+          ),
+          suffix: profile
+              .iconImage(size: 10, color: context.brandColors.brandGreen)
+              .paddingAll(14),
         ),
         16.height,
         // User name test field...
@@ -199,8 +247,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
           focus: userNameFocus,
           nextFocus: emailFocus,
           errorThisFieldRequired: languages.hintRequired,
-          decoration: inputDecoration(context, hint: languages.hintUserNameTxt),
-          suffix: profile.iconImage(size: 10).paddingAll(14),
+          decoration: inputDecoration(context, hint: languages.hintUserNameTxt)
+              .copyWith(
+            labelStyle: primaryTextStyle(color: context.brandColors.brandGreen),
+            enabledBorder: UnderlineInputBorder(
+              borderSide:
+                  BorderSide(color: context.brandColors.brandGreen, width: 2),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide:
+                  BorderSide(color: context.brandColors.brandGreen, width: 2),
+            ),
+          ),
+          suffix: profile
+              .iconImage(size: 10, color: context.brandColors.brandGreen)
+              .paddingAll(14),
         ),
         16.height,
         // Email text field...
@@ -210,8 +271,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
           focus: emailFocus,
           nextFocus: mobileFocus,
           errorThisFieldRequired: languages.hintRequired,
-          decoration: inputDecoration(context, hint: languages.hintEmailAddressTxt),
-          suffix: ic_message.iconImage(size: 10).paddingAll(14),
+          decoration:
+              inputDecoration(context, hint: languages.hintEmailAddressTxt)
+                  .copyWith(
+            labelStyle: primaryTextStyle(color: context.brandColors.brandGreen),
+            enabledBorder: UnderlineInputBorder(
+              borderSide:
+                  BorderSide(color: context.brandColors.brandGreen, width: 2),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide:
+                  BorderSide(color: context.brandColors.brandGreen, width: 2),
+            ),
+          ),
+          suffix: ic_message
+              .iconImage(size: 10, color: context.brandColors.brandGreen)
+              .paddingAll(14),
         ),
         16.height,
         Row(
@@ -242,17 +317,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
             10.width,
             // Mobile number text field...
             AppTextField(
-              textFieldType: isAndroid ? TextFieldType.PHONE : TextFieldType.NAME,
+              textFieldType:
+                  isAndroid ? TextFieldType.PHONE : TextFieldType.NAME,
               controller: mobileCont,
               focus: mobileFocus,
               errorThisFieldRequired: languages.hintRequired,
               nextFocus: passwordFocus,
-              decoration: inputDecoration(context, hint: '${languages.hintContactNumberTxt}').copyWith(
+              decoration: inputDecoration(context,
+                      hint: '${languages.hintContactNumberTxt}')
+                  .copyWith(
                 hintText: '${languages.lblExample}: ${selectedCountry.example}',
                 hintStyle: secondaryTextStyle(),
+                labelStyle:
+                    primaryTextStyle(color: context.brandColors.brandGreen),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color: context.brandColors.brandGreen, width: 2),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color: context.brandColors.brandGreen, width: 2),
+                ),
               ),
               maxLength: 15,
-              suffix: calling.iconImage(size: 10).paddingAll(14),
+              suffix: calling
+                  .iconImage(size: 10, color: context.brandColors.brandGreen)
+                  .paddingAll(14),
             ).expand(),
           ],
         ),
@@ -264,8 +354,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
           isValidationRequired: false,
           focus: designationFocus,
           nextFocus: passwordFocus,
-          decoration: inputDecoration(context, hint: languages.lblDesignation),
-          suffix: profile.iconImage(size: 10).paddingAll(14),
+          decoration:
+              inputDecoration(context, hint: languages.lblDesignation).copyWith(
+            labelStyle: primaryTextStyle(color: context.brandColors.brandGreen),
+            enabledBorder: UnderlineInputBorder(
+              borderSide:
+                  BorderSide(color: context.brandColors.brandGreen, width: 2),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide:
+                  BorderSide(color: context.brandColors.brandGreen, width: 2),
+            ),
+          ),
+          suffix: profile
+              .iconImage(size: 10, color: context.brandColors.brandGreen)
+              .paddingAll(14),
         ),
         16.height,
         // User role text field...
@@ -308,7 +411,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                 _valueNotifier.notifyListeners();
               }).catchError((e) {
-                commissionTypeList = [UserTypeData(name: languages.lblSelectCommission, id: -1)];
+                commissionTypeList = [
+                  UserTypeData(name: languages.lblSelectCommission, id: -1)
+                ];
                 log(e.toString());
               });
             },
@@ -317,7 +422,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         if (selectedUserTypeValue != USER_TYPE_HANDYMAN) 16.height,
         if (selectedUserTypeValue == USER_TYPE_HANDYMAN)
           Container(
-            decoration: boxDecorationDefault(color: context.cardColor, borderRadius: radius()),
+            decoration: boxDecorationDefault(
+                color: context.cardColor, borderRadius: radius()),
             padding: EdgeInsets.only(
               top: selectedProvider != null ? 16 : 0,
               bottom: selectedProvider != null ? 16 : 0,
@@ -336,7 +442,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(languages.selectedProvider, style: secondaryTextStyle()).paddingOnly(bottom: 8),
+                        Text(languages.selectedProvider,
+                                style: secondaryTextStyle())
+                            .paddingOnly(bottom: 8),
                         Row(
                           children: [
                             CachedImageWidget(
@@ -366,12 +474,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       commissionTypeList.clear();
                       selectedUserCommissionType = null;
 
-                      getCommissionType(type: selectedUserTypeValue!).then((value) {
+                      getCommissionType(type: selectedUserTypeValue!)
+                          .then((value) {
                         commissionTypeList = value.userTypeData.validate();
 
                         _valueNotifier.notifyListeners();
                       }).catchError((e) {
-                        commissionTypeList = [UserTypeData(name: languages.lblSelectCommission, id: -1)];
+                        commissionTypeList = [
+                          UserTypeData(
+                              name: languages.lblSelectCommission, id: -1)
+                        ];
                         log(e.toString());
                       });
                     },
@@ -390,7 +502,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         // Select user type text field...
         ValueListenableBuilder(
           valueListenable: _valueNotifier,
-          builder: (context, value, child) => DropdownButtonFormField<UserTypeData>(
+          builder: (context, value, child) =>
+              DropdownButtonFormField<UserTypeData>(
             onChanged: (UserTypeData? val) {
               selectedUserCommissionType = val;
               _valueNotifier.notifyListeners();
@@ -403,7 +516,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 : null,
             value: selectedUserCommissionType,
             dropdownColor: context.cardColor,
-            decoration: inputDecoration(context, hint: languages.lblSelectCommission),
+            decoration:
+                inputDecoration(context, hint: languages.lblSelectCommission),
             items: List.generate(
               commissionTypeList.length,
               (index) {
@@ -420,7 +534,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           style: primaryTextStyle(),
                         )
                       else if (data.type == COMMISSION_TYPE_FIXED)
-                        Text('(${data.commission.validate().toPriceFormat()})', style: primaryTextStyle()),
+                        Text('(${data.commission.validate().toPriceFormat()})',
+                            style: primaryTextStyle()),
                     ],
                   ),
                   value: data,
@@ -436,10 +551,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
           controller: passwordCont,
           focus: passwordFocus,
           obscureText: true,
-          suffixPasswordVisibleWidget: ic_show.iconImage(size: 10).paddingAll(14),
-          suffixPasswordInvisibleWidget: ic_hide.iconImage(size: 10).paddingAll(14),
+          suffixPasswordVisibleWidget: ic_show
+              .iconImage(size: 10, color: context.brandColors.brandGreen)
+              .paddingAll(14),
+          suffixPasswordInvisibleWidget: ic_hide
+              .iconImage(size: 10, color: context.brandColors.brandGreen)
+              .paddingAll(14),
           errorThisFieldRequired: languages.hintRequired,
-          decoration: inputDecoration(context, hint: languages.hintPassword),
+          decoration:
+              inputDecoration(context, hint: languages.hintPassword).copyWith(
+            labelStyle: primaryTextStyle(color: context.brandColors.brandGreen),
+            enabledBorder: UnderlineInputBorder(
+              borderSide:
+                  BorderSide(color: context.brandColors.brandGreen, width: 2),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide:
+                  BorderSide(color: context.brandColors.brandGreen, width: 2),
+            ),
+          ),
           isValidationRequired: true,
           validator: (val) {
             if (val == null || val.isEmpty) {
@@ -460,8 +590,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         AppButton(
           text: languages.lblSignup,
           height: 40,
-          color: primaryColor,
-          textStyle: boldTextStyle(color: white),
+          color: context.brandColors.brandBlue,
+          textStyle: FontUtils.buttonStyle(color: white),
           width: context.width() - context.navigationBarHeight,
           onTap: () {
             saveUser();
@@ -473,7 +603,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   // Pick a Provider
   void pickProvider() async {
-    UserData? user = await ProviderListScreen(status: '$USER_STATUS_CODE').launch(context);
+    UserData? user =
+        await ProviderListScreen(status: '$USER_STATUS_CODE').launch(context);
 
     if (user != null) {
       selectedProvider = user;
@@ -483,12 +614,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
       commissionTypeList.clear();
       selectedUserCommissionType = null;
 
-      getCommissionType(type: selectedUserTypeValue!, providerId: selectedProviderId).then((value) {
+      getCommissionType(
+              type: selectedUserTypeValue!, providerId: selectedProviderId)
+          .then((value) {
         commissionTypeList = value.userTypeData.validate();
 
         _valueNotifier.notifyListeners();
       }).catchError((e) {
-        commissionTypeList = [UserTypeData(name: languages.lblSelectCommission, id: -1)];
+        commissionTypeList = [
+          UserTypeData(name: languages.lblSelectCommission, id: -1)
+        ];
         log(e.toString());
       });
     }
@@ -502,7 +637,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       children: [
         ValueListenableBuilder(
           valueListenable: _valueNotifier,
-          builder: (context, value, child) => SelectedItemWidget(isSelected: isAcceptedTc).onTap(() async {
+          builder: (context, value, child) =>
+              SelectedItemWidget(isSelected: isAcceptedTc).onTap(() async {
             isAcceptedTc = !isAcceptedTc;
             _valueNotifier.notifyListeners();
           }),
@@ -510,22 +646,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
         16.width,
         RichTextWidget(
           list: [
-            TextSpan(text: '${languages.lblIAgree} ', style: secondaryTextStyle()),
+            TextSpan(
+                text: '${languages.lblIAgree} ', style: secondaryTextStyle()),
             TextSpan(
               text: languages.lblTermsOfService,
-              style: boldTextStyle(color: primaryColor),
+              style:
+                  FontUtils.buttonStyle(color: context.brandColors.brandBlue),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  checkIfLink(context, appConfigurationStore.termConditions, title: languages.lblTermsAndConditions);
+                  checkIfLink(context, appConfigurationStore.termConditions,
+                      title: languages.lblTermsAndConditions);
                 },
             ),
             TextSpan(text: ' & ', style: secondaryTextStyle()),
             TextSpan(
               text: languages.lblPrivacyPolicy,
-              style: boldTextStyle(color: primaryColor),
+              style:
+                  FontUtils.buttonStyle(color: context.brandColors.brandBlue),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  checkIfLink(context, appConfigurationStore.privacyPolicy, title: languages.lblPrivacyPolicy);
+                  checkIfLink(context, appConfigurationStore.privacyPolicy,
+                      title: languages.lblPrivacyPolicy);
                 },
             ),
           ],
@@ -541,10 +682,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
         16.height,
         RichTextWidget(
           list: [
-            TextSpan(text: "${languages.alreadyHaveAccountTxt}? ", style: secondaryTextStyle()),
+            TextSpan(
+                text: "${languages.alreadyHaveAccountTxt}? ",
+                style: secondaryTextStyle()),
             TextSpan(
               text: languages.signIn,
-              style: boldTextStyle(color: primaryColor),
+              style: FontUtils.buttonStyle(color: context.brandColors.brandBlue)
+                  .copyWith(
+                decoration: TextDecoration.underline,
+                fontStyle: FontStyle.italic,
+              ),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
                   finish(context);
@@ -570,12 +717,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
           prefixIcon: const Icon(Icons.search),
           border: OutlineInputBorder(
             borderSide: BorderSide(
-              color: const Color(0xFF8C98A8).withValues(alpha:0.2),
+              color: const Color(0xFF8C98A8).withValues(alpha: 0.2),
             ),
           ),
         ),
       ),
-      showPhoneCode: true, // optional. Shows phone code before the country name.
+      showPhoneCode:
+          true, // optional. Shows phone code before the country name.
       onSelect: (Country country) {
         selectedCountry = country;
         _valueNotifier.notifyListeners();
@@ -595,7 +743,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   // Sign up user
   void saveUser() async {
     if (formKey.currentState!.validate()) {
-      if (selectedUserCommissionType == null || selectedUserCommissionType!.id == -1) {
+      if (selectedUserCommissionType == null ||
+          selectedUserCommissionType!.id == -1) {
         return toast(languages.pleaseSelectCommission);
       }
 
@@ -623,9 +772,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         }
 
         if (selectedUserTypeValue == USER_TYPE_PROVIDER) {
-          request.putIfAbsent(UserKeys.providerTypeId, () => selectedUserCommissionType!.id.toString());
+          request.putIfAbsent(UserKeys.providerTypeId,
+              () => selectedUserCommissionType!.id.toString());
         } else {
-          request.putIfAbsent(UserKeys.handymanTypeId, () => selectedUserCommissionType!.id.toString());
+          request.putIfAbsent(UserKeys.handymanTypeId,
+              () => selectedUserCommissionType!.id.toString());
         }
 
         log(request);
@@ -634,7 +785,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
           appStore.setLoading(false);
           toast(userRegisterData.message.validate());
 
-          push(SignInScreen(), isNewTask: true, pageRouteAnimation: PageRouteAnimation.Fade);
+          push(SignInScreen(),
+              isNewTask: true, pageRouteAnimation: PageRouteAnimation.Fade);
         }).catchError((e) {
           toast(e.toString(), print: true);
           appStore.setLoading(false);

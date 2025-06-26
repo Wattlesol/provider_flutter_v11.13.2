@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:handyman_provider_flutter/app_theme.dart';
 import 'package:handyman_provider_flutter/auth/component/user_demo_mode_screen.dart';
 import 'package:handyman_provider_flutter/auth/forgot_password_dialog.dart';
 import 'package:handyman_provider_flutter/auth/sign_up_screen.dart';
 import 'package:handyman_provider_flutter/components/app_widgets.dart';
 import 'package:handyman_provider_flutter/components/selected_item_widget.dart';
+import 'package:handyman_provider_flutter/generated/assets.dart';
 import 'package:handyman_provider_flutter/handyman/handyman_dashboard_screen.dart';
 import 'package:handyman_provider_flutter/main.dart';
 import 'package:handyman_provider_flutter/models/user_data.dart';
 import 'package:handyman_provider_flutter/provider/provider_dashboard_screen.dart';
+import 'package:handyman_provider_flutter/utils/colors.dart';
 import 'package:handyman_provider_flutter/utils/common.dart';
-import 'package:handyman_provider_flutter/utils/configs.dart';
 import 'package:handyman_provider_flutter/utils/constant.dart';
 import 'package:handyman_provider_flutter/utils/extensions/string_extension.dart';
+import 'package:handyman_provider_flutter/utils/font_utils.dart';
 import 'package:handyman_provider_flutter/utils/images.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -84,7 +88,8 @@ class _SignInScreenState extends State<SignInScreen> {
                 key: formKey,
                 autovalidateMode: autovalidateMode,
                 child: SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -103,10 +108,30 @@ class _SignInScreenState extends State<SignInScreen> {
                               focus: emailFocus,
                               nextFocus: passwordFocus,
                               errorThisFieldRequired: languages.hintRequired,
-                              decoration: inputDecoration(context, hint: languages.hintEmailAddressTxt),
-                              suffix: ic_message.iconImage(size: 10).paddingAll(14),
+                              decoration: inputDecoration(context,
+                                      hint: languages.hintEmailAddressTxt)
+                                  .copyWith(
+                                labelStyle: primaryTextStyle(
+                                    color: context.brandColors.brandGreen),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: context.brandColors.brandGreen,
+                                      width: 2),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: context.brandColors.brandGreen,
+                                      width: 2),
+                                ),
+                              ),
+                              suffix: ic_message
+                                  .iconImage(
+                                      size: 10,
+                                      color: context.brandColors.brandGreen)
+                                  .paddingAll(14),
                               autoFillHints: [AutofillHints.email],
-                              onFieldSubmitted: (val) => FocusScope.of(context).requestFocus(passwordFocus),
+                              onFieldSubmitted: (val) => FocusScope.of(context)
+                                  .requestFocus(passwordFocus),
                             ),
                             16.height,
                             // Enter password text field
@@ -116,10 +141,34 @@ class _SignInScreenState extends State<SignInScreen> {
                               focus: passwordFocus,
                               obscureText: true,
                               errorThisFieldRequired: languages.hintRequired,
-                              suffixPasswordVisibleWidget: ic_show.iconImage(size: 10).paddingAll(14),
-                              suffixPasswordInvisibleWidget: ic_hide.iconImage(size: 10).paddingAll(14),
-                              errorMinimumPasswordLength: "${languages.errorPasswordLength} $passwordLengthGlobal",
-                              decoration: inputDecoration(context, hint: languages.hintPassword),
+                              suffixPasswordVisibleWidget: ic_show
+                                  .iconImage(
+                                      size: 10,
+                                      color: context.brandColors.brandGreen)
+                                  .paddingAll(14),
+                              suffixPasswordInvisibleWidget: ic_hide
+                                  .iconImage(
+                                      size: 10,
+                                      color: context.brandColors.brandGreen)
+                                  .paddingAll(14),
+                              errorMinimumPasswordLength:
+                                  "${languages.errorPasswordLength} $passwordLengthGlobal",
+                              decoration: inputDecoration(context,
+                                      hint: languages.hintPassword)
+                                  .copyWith(
+                                labelStyle: primaryTextStyle(
+                                    color: context.brandColors.brandGreen),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: context.brandColors.brandGreen,
+                                      width: 2),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: context.brandColors.brandGreen,
+                                      width: 2),
+                                ),
+                              ),
                               autoFillHints: [AutofillHints.password],
                               isValidationRequired: true,
                               validator: (val) {
@@ -166,7 +215,8 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
               ),
               Observer(
-                builder: (_) => LoaderWidget().center().visible(appStore.isLoading),
+                builder: (_) =>
+                    LoaderWidget().center().visible(appStore.isLoading),
               ),
             ],
           ),
@@ -180,14 +230,32 @@ class _SignInScreenState extends State<SignInScreen> {
     return Column(
       children: [
         32.height,
-        Text(languages.lblLoginTitle, style: boldTextStyle(size: 18)).center(),
+        // Colorful Logo
+        Image.asset(
+          Assets.assetsLogotype,
+          height: 120,
+          // width: 80,
+        ),
+        24.height,
+        // Colorful Welcome Text
+        Text(
+          "Welcome!",
+          style: FontUtils.headlineStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+            color: context.brandColors.brandBlue,
+          ),
+        ).center(),
         16.height,
         Text(
           languages.lblLoginSubtitle,
-          style: secondaryTextStyle(size: 14),
+          style: FontUtils.bodyStyle(
+            fontSize: 16,
+            color: appTextSecondaryColor,
+          ),
           textAlign: TextAlign.center,
         ).paddingSymmetric(horizontal: 32).center(),
-        64.height,
+        32.height,
       ],
     );
   }
@@ -212,14 +280,17 @@ class _SignInScreenState extends State<SignInScreen> {
                     isRemember = !isRemember;
                     setState(() {});
                   },
-                  child: Text(languages.rememberMe, style: secondaryTextStyle()),
+                  child:
+                      Text(languages.rememberMe, style: secondaryTextStyle()),
                 ),
               ],
             ),
             TextButton(
               child: Text(
                 languages.forgotPassword,
-                style: boldTextStyle(color: primaryColor, fontStyle: FontStyle.italic),
+                style: FontUtils.buttonStyle(
+                  color: context.brandColors.brandRed,
+                ).copyWith(fontStyle: FontStyle.italic),
                 textAlign: TextAlign.right,
               ),
               onPressed: () {
@@ -243,8 +314,8 @@ class _SignInScreenState extends State<SignInScreen> {
         AppButton(
           text: languages.signIn,
           height: 40,
-          color: primaryColor,
-          textStyle: boldTextStyle(color: white),
+          color: context.brandColors.brandBlue,
+          textStyle: FontUtils.buttonStyle(color: white),
           width: context.width() - context.navigationBarHeight,
           onTap: () {
             _handleLogin();
@@ -261,8 +332,9 @@ class _SignInScreenState extends State<SignInScreen> {
               },
               child: Text(
                 languages.signUp,
-                style: boldTextStyle(
-                  color: primaryColor,
+                style: FontUtils.buttonStyle(
+                  color: context.brandColors.brandBlue,
+                ).copyWith(
                   decoration: TextDecoration.underline,
                   fontStyle: FontStyle.italic,
                 ),
@@ -320,12 +392,15 @@ class _SignInScreenState extends State<SignInScreen> {
 
     if (res.status.validate() == 1) {
       await appStore.setToken(res.apiToken.validate());
-      appStore.setTester(res.email == DEFAULT_PROVIDER_EMAIL || res.email == DEFAULT_HANDYMAN_EMAIL);
+      appStore.setTester(res.email == DEFAULT_PROVIDER_EMAIL ||
+          res.email == DEFAULT_HANDYMAN_EMAIL);
 
       if (res.userType.validate().trim() == USER_TYPE_PROVIDER) {
-        ProviderDashboardScreen(index: 0).launch(context, isNewTask: true, pageRouteAnimation: PageRouteAnimation.Fade);
+        ProviderDashboardScreen(index: 0).launch(context,
+            isNewTask: true, pageRouteAnimation: PageRouteAnimation.Fade);
       } else if (res.userType.validate().trim() == USER_TYPE_HANDYMAN) {
-        HandymanDashboardScreen().launch(context, isNewTask: true, pageRouteAnimation: PageRouteAnimation.Fade);
+        HandymanDashboardScreen().launch(context,
+            isNewTask: true, pageRouteAnimation: PageRouteAnimation.Fade);
       } else {
         toast(languages.cantLogin, print: true);
       }

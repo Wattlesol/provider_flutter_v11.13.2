@@ -19,8 +19,8 @@
         </intent>
     </queries>
     <application
-        android:icon="@mipmap/ic_launcher"
-        android:label="Provider"
+        android:icon="@mipmap/launcher_icon"
+        android:label="Kangoo Provider"
         tools:replace="android:label">
 
         <meta-data

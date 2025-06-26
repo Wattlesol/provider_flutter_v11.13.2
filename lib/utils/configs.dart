@@ -1,23 +1,27 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:handyman_provider_flutter/main.dart';
+import 'package:handyman_provider_flutter/utils/colors.dart';
 
-const APP_NAME = 'Provider';
+const APP_NAME = 'Kangoo Provider';
 const DEFAULT_LANGUAGE = 'en';
 
-const primaryColor = Color(0xFF5F60B9);
+// Dynamic primary color based on theme
+Color get primaryColor => appStore.isDarkMode ? brandBlueDark : brandBlueLight;
 
 /// Live Url
-const DOMAIN_URL = "https://handyman.wattlesol.com";
-
+const DOMAIN_URL = "https://kangoo.wattlesol.com";
 
 const BASE_URL = "$DOMAIN_URL/api/";
 
 /// You can specify in Admin Panel, These will be used if you don't specify in Admin Panel
-const IOS_LINK_FOR_PARTNER = "https://apps.apple.com/in/app/handyman-provider-app/id1596025324";
+const IOS_LINK_FOR_PARTNER =
+    "https://apps.apple.com/in/app/handyman-provider-app/id1596025324";
 const TERMS_CONDITION_URL = 'https://iqonic.design/terms-of-use/';
 const PRIVACY_POLICY_URL = 'https://iqonic.design/privacy-policy/';
 const HELP_AND_SUPPORT_URL = 'https://iqonic.design/privacy-policy/';
-const REFUND_POLICY_URL = 'https://iqonic.design/licensing-terms-more/#refund-policy';
+const REFUND_POLICY_URL =
+    'https://iqonic.design/licensing-terms-more/#refund-policy';
 const INQUIRY_SUPPORT_EMAIL = 'hello@iqonic.design';
 
 /// You can add help line number here for contact. It's demo number

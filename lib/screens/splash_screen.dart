@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:handyman_provider_flutter/auth/sign_in_screen.dart';
+import 'package:handyman_provider_flutter/generated/assets.dart';
 import 'package:handyman_provider_flutter/handyman/handyman_dashboard_screen.dart';
 import 'package:handyman_provider_flutter/main.dart';
 import 'package:handyman_provider_flutter/provider/provider_dashboard_screen.dart';
 import 'package:handyman_provider_flutter/screens/maintenance_mode_screen.dart';
 import 'package:handyman_provider_flutter/utils/common.dart';
 import 'package:handyman_provider_flutter/utils/configs.dart';
-import 'package:handyman_provider_flutter/utils/images.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../components/app_widgets.dart';
@@ -39,7 +40,6 @@ class SplashScreenState extends State<SplashScreen> {
     // Sync new configurations when app is open
     await setValue(LAST_APP_CONFIGURATION_SYNCED_TIME, 0);
 
-    
     ///Set app configurations
     await getAppConfigurations().then((value) {}).catchError((e) async {
       if (!await isNetworkAvailable()) {
@@ -68,11 +68,11 @@ class SplashScreenState extends State<SplashScreen> {
         MaintenanceModeScreen()
             .launch(context, pageRouteAnimation: PageRouteAnimation.Fade);
       } else {
-      // Check if the user is unauthorized and logged in, then clear preferences and cached data.
-      // This condition occurs when the user is marked as inactive from the admin panel,
-      if (!appConfigurationStore.isUserAuthorized && appStore.isLoggedIn) {
-        await clearPreferences();
-      }
+        // Check if the user is unauthorized and logged in, then clear preferences and cached data.
+        // This condition occurs when the user is marked as inactive from the admin panel,
+        if (!appConfigurationStore.isUserAuthorized && appStore.isLoggedIn) {
+          await clearPreferences();
+        }
         if (!appStore.isLoggedIn) {
           SignInScreen().launch(context,
               isNewTask: true, pageRouteAnimation: PageRouteAnimation.Fade);
@@ -95,7 +95,7 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   updateProfilePhoto() async {
-     getUserDetail(appStore.userId).then((value) async {
+    getUserDetail(appStore.userId).then((value) async {
       await appStore.setUserProfile(value.data!.profileImage.validate());
     });
   }
@@ -116,24 +116,24 @@ class SplashScreenState extends State<SplashScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: [
+          // Background Image
           Image.asset(
-            appStore.isDarkMode ? splash_background : splash_light_background,
+            Assets.imagesSplashBg,
             height: context.height(),
             width: context.width(),
             fit: BoxFit.cover,
           ),
+
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(appLogo, height: 120, width: 120),
+              // Simple Logo
+              SvgPicture.asset(
+                Assets.assetsLogoSvg,
+                colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+              ),
               32.height,
-              Text(APP_NAME,
-                  style: boldTextStyle(
-                      size: 26,
-                      color: appStore.isDarkMode ? Colors.white : Colors.black),
-                  textAlign: TextAlign.center),
-              16.height,
               if (appNotSynced)
                 Observer(
                   builder: (_) => appStore.isLoading
