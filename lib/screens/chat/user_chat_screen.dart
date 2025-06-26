@@ -313,10 +313,10 @@ class _UserChatScreenState extends State<UserChatScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: context.brandColors.brandBlue,
+        backgroundColor: primaryColor, // Uses centralized color system
         leadingWidth: context.width(),
         systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: context.brandColors.brandBlue,
+            statusBarColor: primaryColor, // Uses centralized color system
             statusBarBrightness: Brightness.dark,
             statusBarIconBrightness: Brightness.light),
         leading: Row(

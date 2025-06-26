@@ -52,7 +52,7 @@ class ThemeSelectionDaiLogState extends State<ThemeSelectionDaiLog> {
             decoration: boxDecorationWithRoundedCorners(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-              backgroundColor: context.brandColors.brandBlue,
+              backgroundColor: primaryColor, // Uses centralized color system
             ),
             padding: EdgeInsets.only(left: 24, right: 8, bottom: 8, top: 8),
             child: Row(
@@ -78,7 +78,7 @@ class ThemeSelectionDaiLogState extends State<ThemeSelectionDaiLog> {
             itemBuilder: (BuildContext context, int index) {
               return RadioListTile(
                 value: index,
-                activeColor: context.brandColors.brandBlue,
+                activeColor: primaryColor, // Uses centralized color system
                 controlAffinity: ListTileControlAffinity.trailing,
                 groupValue: currentIndex,
                 title: Text(themeModeList[index], style: primaryTextStyle()),

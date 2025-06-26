@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:handyman_provider_flutter/components/back_widget.dart';
 import 'package:handyman_provider_flutter/main.dart';
 import 'package:handyman_provider_flutter/networks/rest_apis.dart';
+import 'package:handyman_provider_flutter/utils/configs.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../utils/constant.dart';
@@ -50,7 +51,7 @@ class LanguagesScreenState extends State<LanguagesScreen> {
         languages.language,
         textColor: white,
         elevation: 0.0,
-        color: context.primaryColor,
+        color: primaryColor, // Uses centralized color system
         backWidget: BackWidget(),
       ),
       body: LanguageListWidget(

@@ -213,8 +213,10 @@ class ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                   NavigationDestination(
                     icon: Image.asset(chat,
                         height: 20, width: 20, color: appTextSecondaryColor),
-                    selectedIcon:
-                        Image.asset(ic_fill_textMsg, height: 26, width: 26),
+                    selectedIcon: Image.asset(ic_fill_textMsg,
+                        height: 26,
+                        width: 26,
+                        color: primaryColor), // Uses centralized color
                     label: languages.lblChat,
                   ),
                 Observer(builder: (context) {

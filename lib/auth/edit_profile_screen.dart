@@ -124,7 +124,9 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     serviceAddressId = appStore.serviceAddressId;
     designationCont.text = appStore.designation;
     selectedCountryPicker = Country(
-      phoneCode: appStore.userContactNumber.split("-").first.isEmpty ? "+91" : appStore.userContactNumber.split("-").first.toString(),
+      phoneCode: appStore.userContactNumber.split("-").first.isEmpty
+          ? "+91"
+          : appStore.userContactNumber.split("-").first.toString(),
       countryCode: "",
       e164Sc: 0,
       geographic: true,
@@ -187,8 +189,11 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     await getAddresses(providerId: appStore.providerId).then((value) {
       serviceAddressList.addAll(value.addressResponse!);
 
-      if (value.addressResponse.validate().any((element) => element.id == getIntAsync(SERVICE_ADDRESS_ID))) {
-        selectedAddress = value.addressResponse!.firstWhere((element) => element.id == getIntAsync(SERVICE_ADDRESS_ID));
+      if (value.addressResponse
+          .validate()
+          .any((element) => element.id == getIntAsync(SERVICE_ADDRESS_ID))) {
+        selectedAddress = value.addressResponse!.firstWhere(
+            (element) => element.id == getIntAsync(SERVICE_ADDRESS_ID));
       }
       setState(() {});
     }).catchError((e) {
@@ -204,7 +209,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
       countryList.addAll(value);
 
       if (value.any((element) => element.id == getIntAsync(COUNTRY_ID))) {
-        selectedCountry = value.firstWhere((element) => element.id == getIntAsync(COUNTRY_ID));
+        selectedCountry = value
+            .firstWhere((element) => element.id == getIntAsync(COUNTRY_ID));
       }
       setState(() {});
     }).catchError((e) {
@@ -220,7 +226,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
       stateList.addAll(value);
 
       if (value.any((element) => element.id == getIntAsync(STATE_ID))) {
-        selectedState = value.firstWhere((element) => element.id == getIntAsync(STATE_ID));
+        selectedState =
+            value.firstWhere((element) => element.id == getIntAsync(STATE_ID));
       }
       setState(() {});
     }).catchError((e) {
@@ -237,7 +244,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
       cityList.addAll(value);
 
       if (value.any((element) => element.id == getIntAsync(CITY_ID))) {
-        selectedCity = value.firstWhere((element) => element.id == getIntAsync(CITY_ID));
+        selectedCity =
+            value.firstWhere((element) => element.id == getIntAsync(CITY_ID));
       }
       setState(() {});
     }).catchError((e) {
@@ -247,29 +255,41 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Future<void> update() async {
-    MultipartRequest multiPartRequest = await getMultiPartRequest('update-profile');
+    MultipartRequest multiPartRequest =
+        await getMultiPartRequest('update-profile');
     multiPartRequest.fields[UserKeys.id] = appStore.userId.toString();
     multiPartRequest.fields[UserKeys.firstName] = fNameCont.text;
     multiPartRequest.fields[UserKeys.lastName] = lNameCont.text;
     multiPartRequest.fields[UserKeys.userName] = userNameCont.text;
     multiPartRequest.fields[UserKeys.userType] = getStringAsync(USER_TYPE);
-    multiPartRequest.fields[UserKeys.contactNumber] = mobileCont.text.isEmpty ? '' : selectedCountryPicker.phoneCode + "-" + mobileCont.text;
+    multiPartRequest.fields[UserKeys.contactNumber] = mobileCont.text.isEmpty
+        ? ''
+        : selectedCountryPicker.phoneCode + "-" + mobileCont.text;
     multiPartRequest.fields[UserKeys.email] = emailCont.text;
     multiPartRequest.fields[UserKeys.countryId] = countryId.toString();
     multiPartRequest.fields[UserKeys.stateId] = stateId.toString();
     multiPartRequest.fields[UserKeys.cityId] = cityId.toString();
     multiPartRequest.fields[CommonKeys.address] = addressCont.text.validate();
-    multiPartRequest.fields[UserKeys.designation] = designationCont.text.validate();
-    multiPartRequest.fields[UserKeys.knownLanguages] = jsonEncode(knownLanguages);
+    multiPartRequest.fields[UserKeys.designation] =
+        designationCont.text.validate();
+    multiPartRequest.fields[UserKeys.knownLanguages] =
+        jsonEncode(knownLanguages);
     multiPartRequest.fields[UserKeys.skills] = jsonEncode(skills);
-    multiPartRequest.fields[UserKeys.whyChooseReason] = jsonEncode(whyChooseMeReasons);
-    multiPartRequest.fields[UserKeys.whyChooseTitle] = whyChooseMeCont.text.trim();
-    multiPartRequest.fields[UserKeys.description] = descriptionCont.text.validate();
-    multiPartRequest.fields[UserKeys.displayName] = '${fNameCont.text.validate() + " " + lNameCont.text.validate()}';
+    multiPartRequest.fields[UserKeys.whyChooseReason] =
+        jsonEncode(whyChooseMeReasons);
+    multiPartRequest.fields[UserKeys.whyChooseTitle] =
+        whyChooseMeCont.text.trim();
+    multiPartRequest.fields[UserKeys.description] =
+        descriptionCont.text.validate();
+    multiPartRequest.fields[UserKeys.displayName] =
+        '${fNameCont.text.validate() + " " + lNameCont.text.validate()}';
 
-    if (isUserTypeHandyman && serviceAddressId != null) multiPartRequest.fields[UserKeys.serviceAddressId] = serviceAddressId == 0 ? '' : serviceAddressId.toString();
+    if (isUserTypeHandyman && serviceAddressId != null)
+      multiPartRequest.fields[UserKeys.serviceAddressId] =
+          serviceAddressId == 0 ? '' : serviceAddressId.toString();
     if (imageFile != null) {
-      multiPartRequest.files.add(await MultipartFile.fromPath(UserKeys.profileImage, imageFile!.path));
+      multiPartRequest.files.add(
+          await MultipartFile.fromPath(UserKeys.profileImage, imageFile!.path));
     }
 
     multiPartRequest.headers.addAll(buildHeaderTokens());
@@ -282,7 +302,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
         appStore.setLoading(false);
         if (data != null) {
           if ((data as String).isJson()) {
-            UserUpdateResponse res = UserUpdateResponse.fromJson(jsonDecode(data));
+            UserUpdateResponse res =
+                UserUpdateResponse.fromJson(jsonDecode(data));
 
             if (FirebaseAuth.instance.currentUser != null) {
               userService.updateDocument({
@@ -331,14 +352,16 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   void _getFromGallery() async {
-    pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery, maxWidth: 1800, maxHeight: 1800);
+    pickedFile = await ImagePicker().pickImage(
+        source: ImageSource.gallery, maxWidth: 1800, maxHeight: 1800);
     if (pickedFile != null) {
       _showSelectionDialog(context);
     }
   }
 
   _getFromCamera() async {
-    pickedFile = await ImagePicker().pickImage(source: ImageSource.camera, maxWidth: 1800, maxHeight: 1800);
+    pickedFile = await ImagePicker()
+        .pickImage(source: ImageSource.camera, maxWidth: 1800, maxHeight: 1800);
     if (pickedFile != null) {
       _showSelectionDialog(context);
     }
@@ -405,7 +428,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
           appBar: appBarWidget(
             languages.editProfile,
             textColor: white,
-            color: context.primaryColor,
+            color: primaryColor, // Uses centralized color system
             backWidget: BackWidget(),
             showBack: true,
           ),
@@ -428,11 +451,17 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                             children: [
                               Container(
                                 decoration: boxDecorationDefault(
-                                  border: Border.all(color: context.scaffoldBackgroundColor, width: 4),
+                                  border: Border.all(
+                                      color: context.scaffoldBackgroundColor,
+                                      width: 4),
                                   shape: BoxShape.circle,
                                 ),
                                 child: imageFile != null
-                                    ? Image.file(imageFile!, width: 90, height: 90, fit: BoxFit.cover).cornerRadiusWithClipRRect(45)
+                                    ? Image.file(imageFile!,
+                                            width: 90,
+                                            height: 90,
+                                            fit: BoxFit.cover)
+                                        .cornerRadiusWithClipRRect(45)
                                     : Observer(
                                         builder: (_) => CachedImageWidget(
                                           url: appStore.userProfileImage,
@@ -452,7 +481,9 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                     backgroundColor: primaryColor,
                                     border: Border.all(color: Colors.white),
                                   ),
-                                  child: Icon(AntDesign.camera, color: Colors.white, size: 16).paddingAll(4.0),
+                                  child: Icon(AntDesign.camera,
+                                          color: Colors.white, size: 16)
+                                      .paddingAll(4.0),
                                 ).onTap(() async {
                                   _showBottomSheet(context);
                                 }),
@@ -466,7 +497,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                           controller: fNameCont,
                           focus: fNameFocus,
                           nextFocus: lNameFocus,
-                          decoration: inputDecoration(context, hint: languages.hintFirstNameTxt),
+                          decoration: inputDecoration(context,
+                              hint: languages.hintFirstNameTxt),
                           suffix: profile.iconImage(size: 10).paddingAll(14),
                         ),
                         16.height,
@@ -475,7 +507,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                           controller: lNameCont,
                           focus: lNameFocus,
                           nextFocus: userNameFocus,
-                          decoration: inputDecoration(context, hint: languages.hintLastNameTxt),
+                          decoration: inputDecoration(context,
+                              hint: languages.hintLastNameTxt),
                           suffix: profile.iconImage(size: 10).paddingAll(14),
                         ),
                         16.height,
@@ -485,7 +518,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                           focus: userNameFocus,
                           nextFocus: emailFocus,
                           enabled: false,
-                          decoration: inputDecoration(context, hint: languages.hintUserNameTxt),
+                          decoration: inputDecoration(context,
+                              hint: languages.hintUserNameTxt),
                           suffix: profile.iconImage(size: 10).paddingAll(14),
                         ),
                         16.height,
@@ -494,7 +528,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                           controller: emailCont,
                           focus: emailFocus,
                           nextFocus: mobileFocus,
-                          decoration: inputDecoration(context, hint: languages.hintEmailAddressTxt),
+                          decoration: inputDecoration(context,
+                              hint: languages.hintEmailAddressTxt),
                           suffix: ic_message.iconImage(size: 10).paddingAll(14),
                           onFieldSubmitted: (email) async {
                             if (emailCont.text.isNotEmpty) await verifyEmail();
@@ -507,15 +542,24 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                             crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
                               Text(
-                                isEmailVerified.validate() ? languages.verified : languages.verifyEmail,
-                                style: isEmailVerified.validate() ? secondaryTextStyle(color: Colors.green) : secondaryTextStyle(),
+                                isEmailVerified.validate()
+                                    ? languages.verified
+                                    : languages.verifyEmail,
+                                style: isEmailVerified.validate()
+                                    ? secondaryTextStyle(color: Colors.green)
+                                    : secondaryTextStyle(),
                               ),
                               if (!isEmailVerified.validate())
-                                ic_pending.iconImage(color: Colors.amber, size: 14)
+                                ic_pending.iconImage(
+                                    color: Colors.amber, size: 14)
                               else
                                 Icon(
-                                  isEmailVerified.validate() ? Icons.check_circle : Icons.refresh,
-                                  color: isEmailVerified.validate() ? Colors.green : Colors.grey,
+                                  isEmailVerified.validate()
+                                      ? Icons.check_circle
+                                      : Icons.refresh,
+                                  color: isEmailVerified.validate()
+                                      ? Colors.green
+                                      : Colors.grey,
                                   size: 16,
                                 )
                             ],
@@ -543,12 +587,12 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                   builder: (context, value, child) => Row(
                                     children: [
                                       Text(
-                                        selectedCountryPicker.phoneCode.startsWith('+')
+                                        selectedCountryPicker.phoneCode
+                                                .startsWith('+')
                                             ? selectedCountryPicker.phoneCode
                                             : '+${selectedCountryPicker.phoneCode}',
                                         style: primaryTextStyle(size: 12),
                                       ).paddingOnly(left: 8),
-
                                       Icon(Icons.arrow_drop_down)
                                     ],
                                   ),
@@ -558,13 +602,18 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                             10.width,
                             // Mobile number text field...
                             AppTextField(
-                              textFieldType: isAndroid ? TextFieldType.PHONE : TextFieldType.NAME,
+                              textFieldType: isAndroid
+                                  ? TextFieldType.PHONE
+                                  : TextFieldType.NAME,
                               controller: mobileCont,
                               focus: mobileFocus,
-                              decoration: inputDecoration(context, hint: languages.hintContactNumberTxt).copyWith(
+                              decoration: inputDecoration(context,
+                                      hint: languages.hintContactNumberTxt)
+                                  .copyWith(
                                 hintStyle: secondaryTextStyle(),
                               ),
-                              suffix: calling.iconImage(size: 10).paddingAll(14),
+                              suffix:
+                                  calling.iconImage(size: 10).paddingAll(14),
                               maxLength: 15,
                             ).expand(),
                           ],
@@ -575,13 +624,15 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                           controller: designationCont,
                           isValidationRequired: false,
                           focus: designationFocus,
-                          decoration: inputDecoration(context, hint: languages.lblDesignation),
+                          decoration: inputDecoration(context,
+                              hint: languages.lblDesignation),
                         ),
                         16.height,
                         Row(
                           children: [
                             DropdownButtonFormField<CountryListResponse>(
-                              decoration: inputDecoration(context, hint: languages.selectCountry),
+                              decoration: inputDecoration(context,
+                                  hint: languages.selectCountry),
                               isExpanded: true,
                               menuMaxHeight: 300,
                               value: selectedCountry,
@@ -589,7 +640,10 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                               items: countryList.map((CountryListResponse e) {
                                 return DropdownMenuItem<CountryListResponse>(
                                   value: e,
-                                  child: Text(e.name!, style: primaryTextStyle(), maxLines: 1, overflow: TextOverflow.ellipsis),
+                                  child: Text(e.name!,
+                                      style: primaryTextStyle(),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis),
                                 );
                               }).toList(),
                               onChanged: (CountryListResponse? value) async {
@@ -605,7 +659,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                             8.width.visible(stateList.isNotEmpty),
                             if (stateList.isNotEmpty)
                               DropdownButtonFormField<StateListResponse>(
-                                decoration: inputDecoration(context, hint: languages.selectState),
+                                decoration: inputDecoration(context,
+                                    hint: languages.selectState),
                                 isExpanded: true,
                                 dropdownColor: context.cardColor,
                                 menuMaxHeight: 300,
@@ -613,7 +668,10 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                 items: stateList.map((StateListResponse e) {
                                   return DropdownMenuItem<StateListResponse>(
                                     value: e,
-                                    child: Text(e.name!, style: primaryTextStyle(), maxLines: 1, overflow: TextOverflow.ellipsis),
+                                    child: Text(e.name!,
+                                        style: primaryTextStyle(),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis),
                                   );
                                 }).toList(),
                                 onChanged: (StateListResponse? value) async {
@@ -633,7 +691,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                             children: [
                               DropdownButtonFormField<CityListResponse>(
                                 decoration: inputDecoration(context),
-                                hint: Text(languages.selectCity, style: primaryTextStyle()),
+                                hint: Text(languages.selectCity,
+                                    style: primaryTextStyle()),
                                 isExpanded: true,
                                 menuMaxHeight: 400,
                                 value: selectedCity,
@@ -642,7 +701,10 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                   (CityListResponse e) {
                                     return DropdownMenuItem<CityListResponse>(
                                       value: e,
-                                      child: Text(e.name!, style: primaryTextStyle(), maxLines: 1, overflow: TextOverflow.ellipsis),
+                                      child: Text(e.name!,
+                                          style: primaryTextStyle(),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis),
                                     );
                                   },
                                 ).toList(),
@@ -658,14 +720,19 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                           ),
                         if (isUserTypeHandyman && serviceAddressList.isNotEmpty)
                           DropdownButtonFormField<AddressResponse>(
-                            decoration: inputDecoration(context, hint: languages.lblSelectAddress),
+                            decoration: inputDecoration(context,
+                                hint: languages.lblSelectAddress),
                             isExpanded: true,
-                            value: selectedAddress != null ? selectedAddress : null,
+                            value: selectedAddress != null
+                                ? selectedAddress
+                                : null,
                             dropdownColor: context.cardColor,
-                            items: serviceAddressList.map((AddressResponse data) {
+                            items:
+                                serviceAddressList.map((AddressResponse data) {
                               return DropdownMenuItem<AddressResponse>(
                                 value: data,
-                                child: Text(data.address.validate(), style: primaryTextStyle()),
+                                child: Text(data.address.validate(),
+                                    style: primaryTextStyle()),
                               );
                             }).toList(),
                             onChanged: (AddressResponse? value) async {
@@ -674,17 +741,20 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                               setState(() {});
                             },
                           ).paddingTop(16),
-                        if (isUserTypeHandyman && serviceAddressList.isNotEmpty) 16.height,
+                        if (isUserTypeHandyman && serviceAddressList.isNotEmpty)
+                          16.height,
                         AppTextField(
                           controller: addressCont,
                           textFieldType: TextFieldType.MULTILINE,
                           maxLines: 5,
                           focus: addressFocus,
                           minLines: 3,
-                          decoration: inputDecoration(context, hint: languages.hintAddress),
+                          decoration: inputDecoration(context,
+                              hint: languages.hintAddress),
                         ),
                         16.height,
-                        Text(languages.knownLanguages, style: secondaryTextStyle()),
+                        Text(languages.knownLanguages,
+                            style: secondaryTextStyle()),
                         8.height,
                         Wrap(
                           children: knownLanguages.map((e) {
@@ -692,10 +762,14 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                               children: [
                                 Container(
                                   decoration: boxDecorationWithRoundedCorners(
-                                    borderRadius: BorderRadius.all(Radius.circular(16)),
-                                    backgroundColor: appStore.isDarkMode ? cardDarkColor : primaryColor.withValues(alpha:0.1),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(16)),
+                                    backgroundColor: appStore.isDarkMode
+                                        ? cardDarkColor
+                                        : primaryColor.withValues(alpha: 0.1),
                                   ),
-                                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 8),
                                   margin: EdgeInsets.all(4),
                                   child: Text(e, style: primaryTextStyle()),
                                 ),
@@ -728,10 +802,13 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                               setState(() {});
                             }
                           },
-                          child: Text(languages.addKnownLanguage, style: primaryTextStyle(color: context.primaryColor)),
+                          child: Text(languages.addKnownLanguage,
+                              style: primaryTextStyle(
+                                  color: context.primaryColor)),
                         ),
                         16.height,
-                        Text(languages.essentialSkills, style: secondaryTextStyle()),
+                        Text(languages.essentialSkills,
+                            style: secondaryTextStyle()),
                         8.height,
                         Wrap(
                           children: skills.map((e) {
@@ -739,10 +816,14 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                               children: [
                                 Container(
                                   decoration: boxDecorationWithRoundedCorners(
-                                    borderRadius: BorderRadius.all(Radius.circular(16)),
-                                    backgroundColor: appStore.isDarkMode ? cardDarkColor : primaryColor.withValues(alpha:0.1),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(16)),
+                                    backgroundColor: appStore.isDarkMode
+                                        ? cardDarkColor
+                                        : primaryColor.withValues(alpha: 0.1),
                                   ),
-                                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 8),
                                   margin: EdgeInsets.all(4),
                                   child: Text(e, style: primaryTextStyle()),
                                 ),
@@ -775,7 +856,9 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                               setState(() {});
                             }
                           },
-                          child: Text(languages.addEssentialSkill, style: primaryTextStyle(color: context.primaryColor)),
+                          child: Text(languages.addEssentialSkill,
+                              style: primaryTextStyle(
+                                  color: context.primaryColor)),
                         ),
                         16.height,
                         AppTextField(
@@ -786,14 +869,17 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                           minLines: 2,
                           maxLength: 120,
                           enableChatGPT: appConfigurationStore.chatGPTStatus,
-                          promptFieldInputDecorationChatGPT: inputDecoration(context).copyWith(
+                          promptFieldInputDecorationChatGPT:
+                              inputDecoration(context).copyWith(
                             hintText: languages.writeHere,
                             fillColor: context.scaffoldBackgroundColor,
                             filled: true,
                           ),
-                          testWithoutKeyChatGPT: appConfigurationStore.testWithoutKey,
+                          testWithoutKeyChatGPT:
+                              appConfigurationStore.testWithoutKey,
                           loaderWidgetForChatGPT: const ChatGPTLoadingWidget(),
-                          decoration: inputDecoration(context, hint: languages.writeShortLineAbout),
+                          decoration: inputDecoration(context,
+                              hint: languages.writeShortLineAbout),
                           isValidationRequired: false,
                         ),
                         16.height,
@@ -805,18 +891,22 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                           focus: descriptionFocus,
                           nextFocus: whyChooseMeFocus,
                           enableChatGPT: appConfigurationStore.chatGPTStatus,
-                          promptFieldInputDecorationChatGPT: inputDecoration(context).copyWith(
+                          promptFieldInputDecorationChatGPT:
+                              inputDecoration(context).copyWith(
                             hintText: languages.writeHere,
                             fillColor: context.scaffoldBackgroundColor,
                             filled: true,
                           ),
-                          testWithoutKeyChatGPT: appConfigurationStore.testWithoutKey,
+                          testWithoutKeyChatGPT:
+                              appConfigurationStore.testWithoutKey,
                           loaderWidgetForChatGPT: const ChatGPTLoadingWidget(),
-                          decoration: inputDecoration(context, hint: languages.aboutYou),
+                          decoration: inputDecoration(context,
+                              hint: languages.aboutYou),
                           isValidationRequired: false,
                         ),
                         16.height,
-                        Text(languages.reasonsToChooseYour, style: secondaryTextStyle()),
+                        Text(languages.reasonsToChooseYour,
+                            style: secondaryTextStyle()),
                         8.height,
                         Wrap(
                           children: whyChooseMeReasons.map((e) {
@@ -824,10 +914,14 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                               children: [
                                 Container(
                                   decoration: boxDecorationWithRoundedCorners(
-                                    borderRadius: BorderRadius.all(Radius.circular(16)),
-                                    backgroundColor: appStore.isDarkMode ? cardDarkColor : primaryColor.withValues(alpha:0.1),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(16)),
+                                    backgroundColor: appStore.isDarkMode
+                                        ? cardDarkColor
+                                        : primaryColor.withValues(alpha: 0.1),
                                   ),
-                                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 8),
                                   margin: EdgeInsets.all(4),
                                   child: Text(e, style: primaryTextStyle()),
                                 ),
@@ -860,7 +954,9 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                               setState(() {});
                             }
                           },
-                          child: Text(languages.addReasons, style: primaryTextStyle(color: context.primaryColor)),
+                          child: Text(languages.addReasons,
+                              style: primaryTextStyle(
+                                  color: context.primaryColor)),
                         ),
                         28.height,
                         AppButton(
@@ -881,7 +977,9 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ),
               ),
-              Observer(builder: (_) => LoaderWidget().center().visible(appStore.isLoading)),
+              Observer(
+                  builder: (_) =>
+                      LoaderWidget().center().visible(appStore.isLoading)),
             ],
           ),
         ),
@@ -900,12 +998,13 @@ class EditProfileScreenState extends State<EditProfileScreen> {
           prefixIcon: const Icon(Icons.search),
           border: OutlineInputBorder(
             borderSide: BorderSide(
-              color: const Color(0xFF8C98A8).withValues(alpha:0.2),
+              color: const Color(0xFF8C98A8).withValues(alpha: 0.2),
             ),
           ),
         ),
       ),
-      showPhoneCode: true, // optional. Shows phone code before the country name.
+      showPhoneCode:
+          true, // optional. Shows phone code before the country name.
       onSelect: (Country country) {
         selectedCountryPicker = country;
         _valueNotifier.notifyListeners();
