@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:handyman_provider_flutter/app_theme.dart';
 import 'package:handyman_provider_flutter/main.dart';
 import 'package:handyman_provider_flutter/models/dashboard_response.dart';
 import 'package:handyman_provider_flutter/networks/rest_apis.dart';
@@ -39,7 +40,9 @@ class _ProviderHomeFragmentState extends State<ProviderHomeFragment> {
   }
 
   void init({bool forceSyncAppConfigurations = false}) async {
-    future = providerDashboard(forceSyncAppConfigurations: forceSyncAppConfigurations).whenComplete(() {
+    future = providerDashboard(
+            forceSyncAppConfigurations: forceSyncAppConfigurations)
+        .whenComplete(() {
       setState(() {});
     });
   }
@@ -49,9 +52,12 @@ class _ProviderHomeFragmentState extends State<ProviderHomeFragment> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         16.height,
-        Text("${languages.lblHello}, ${appStore.userFullName}", style: boldTextStyle(size: 16)).paddingLeft(16),
+        Text("${languages.lblHello}, ${appStore.userFullName}",
+                style: boldTextStyle(size: 16))
+            .paddingLeft(16),
         8.height,
-        Text(languages.lblWelcomeBack, style: secondaryTextStyle(size: 14)).paddingLeft(16),
+        Text(languages.lblWelcomeBack, style: secondaryTextStyle(size: 14))
+            .paddingLeft(16),
         16.height,
       ],
     );
@@ -60,7 +66,8 @@ class _ProviderHomeFragmentState extends State<ProviderHomeFragment> {
   Widget planBanner(DashboardResponse data) {
     if (data.isPlanExpired.validate()) {
       return subSubscriptionPlanWidget(
-        planBgColor: appStore.isDarkMode ? context.cardColor : Colors.red.shade50,
+        planBgColor:
+            appStore.isDarkMode ? context.cardColor : Colors.red.shade50,
         planTitle: languages.lblPlanExpired,
         planSubtitle: languages.lblPlanSubTitle,
         planButtonTxt: languages.btnTxtBuyNow,
@@ -71,7 +78,8 @@ class _ProviderHomeFragmentState extends State<ProviderHomeFragment> {
       );
     } else if (data.userNeverPurchasedPlan.validate()) {
       return subSubscriptionPlanWidget(
-        planBgColor: appStore.isDarkMode ? context.cardColor : Colors.red.shade50,
+        planBgColor:
+            appStore.isDarkMode ? context.cardColor : Colors.red.shade50,
         planTitle: languages.lblChooseYourPlan,
         planSubtitle: languages.lblRenewSubTitle,
         planButtonTxt: languages.btnTxtBuyNow,
@@ -85,7 +93,8 @@ class _ProviderHomeFragmentState extends State<ProviderHomeFragment> {
 
       if (days != 0 && days <= PLAN_REMAINING_DAYS) {
         return subSubscriptionPlanWidget(
-          planBgColor: appStore.isDarkMode ? context.cardColor : Colors.orange.shade50,
+          planBgColor:
+              appStore.isDarkMode ? context.cardColor : Colors.orange.shade50,
           planTitle: languages.lblReminder,
           planSubtitle: languages.planAboutToExpire(days),
           planButtonTxt: languages.lblRenew,
@@ -124,20 +133,28 @@ class _ProviderHomeFragmentState extends State<ProviderHomeFragment> {
                   listAnimationType: ListAnimationType.FadeIn,
                   fadeInConfiguration: FadeInConfiguration(duration: 2.seconds),
                   children: [
-                    if (appStore.earningTypeSubscription) planBanner(snap.data!),
+                    if (appStore.earningTypeSubscription)
+                      planBanner(snap.data!),
                     _buildHeaderWidget(snap.data!),
-                    TodayCashComponent(totalCashInHand: snap.data!.totalCashInHand.validate()),
+                    TodayCashComponent(
+                        totalCashInHand: snap.data!.totalCashInHand.validate()),
                     TotalComponent(snap: snap.data!),
                     ChartComponent(),
-                    HandymanRecentlyOnlineComponent(images: snap.data!.onlineHandyman.validate()),
+                    HandymanRecentlyOnlineComponent(
+                        images: snap.data!.onlineHandyman.validate()),
                     HandymanListComponent(
                       list: snap.data!.handyman.validate(),
-                      totalActiveHandyman: snap.data!.totalActiveHandyman.validate(),
+                      totalActiveHandyman:
+                          snap.data!.totalActiveHandyman.validate(),
                       onRefresh: init,
                     ),
-                    UpcomingBookingComponent(bookingData: snap.data!.upcomingBookings.validate()),
-                    JobListComponent(list: snap.data!.myPostJobData.validate()).paddingOnly(left: 16, right: 16, top: 8).visible(rolesAndPermissionStore.postJobList),
-                    ServiceListComponent(list: snap.data!.service.validate()).visible(rolesAndPermissionStore.serviceList),
+                    UpcomingBookingComponent(
+                        bookingData: snap.data!.upcomingBookings.validate()),
+                    JobListComponent(list: snap.data!.myPostJobData.validate())
+                        .paddingOnly(left: 16, right: 16, top: 8)
+                        .visible(rolesAndPermissionStore.postJobList),
+                    ServiceListComponent(list: snap.data!.service.validate())
+                        .visible(rolesAndPermissionStore.serviceList),
                   ],
                   onSwipeRefresh: () async {
                     page = 1;
@@ -171,7 +188,8 @@ class _ProviderHomeFragmentState extends State<ProviderHomeFragment> {
               );
             },
           ),
-          Observer(builder: (context) => LoaderWidget().visible(appStore.isLoading))
+          Observer(
+              builder: (context) => LoaderWidget().visible(appStore.isLoading))
         ],
       ),
     );

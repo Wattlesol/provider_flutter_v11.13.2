@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:handyman_provider_flutter/app_theme.dart';
 import 'package:handyman_provider_flutter/main.dart';
 import 'package:handyman_provider_flutter/utils/configs.dart';
 import 'package:handyman_provider_flutter/utils/constant.dart';
@@ -25,9 +26,14 @@ class ThemeSelectionDaiLogState extends State<ThemeSelectionDaiLog> {
 
   Future<void> init() async {
     afterBuildCreated(() {
-      themeModeList = [languages.lightMode, languages.darkMode, languages.systemDefault];
+      themeModeList = [
+        languages.lightMode,
+        languages.darkMode,
+        languages.systemDefault
+      ];
     });
-    currentIndex = getIntAsync(THEME_MODE_INDEX, defaultValue: THEME_MODE_SYSTEM);
+    currentIndex =
+        getIntAsync(THEME_MODE_INDEX, defaultValue: THEME_MODE_SYSTEM);
   }
 
   @override
@@ -44,14 +50,16 @@ class ThemeSelectionDaiLogState extends State<ThemeSelectionDaiLog> {
         children: [
           Container(
             decoration: boxDecorationWithRoundedCorners(
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-              backgroundColor: primaryColor,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+              backgroundColor: context.brandColors.brandBlue,
             ),
             padding: EdgeInsets.only(left: 24, right: 8, bottom: 8, top: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(languages.chooseTheme, style: boldTextStyle(color: white, size: 16)),
+                Text(languages.chooseTheme,
+                    style: boldTextStyle(color: white, size: 16)),
                 IconButton(
                   onPressed: () {
                     finish(context);
@@ -70,7 +78,7 @@ class ThemeSelectionDaiLogState extends State<ThemeSelectionDaiLog> {
             itemBuilder: (BuildContext context, int index) {
               return RadioListTile(
                 value: index,
-                activeColor: primaryColor,
+                activeColor: context.brandColors.brandBlue,
                 controlAffinity: ListTileControlAffinity.trailing,
                 groupValue: currentIndex,
                 title: Text(themeModeList[index], style: primaryTextStyle()),
@@ -78,7 +86,8 @@ class ThemeSelectionDaiLogState extends State<ThemeSelectionDaiLog> {
                   currentIndex = val;
 
                   if (val == THEME_MODE_SYSTEM) {
-                    appStore.setDarkMode(context.platformBrightness() == Brightness.dark);
+                    appStore.setDarkMode(
+                        context.platformBrightness() == Brightness.dark);
                   } else if (val == THEME_MODE_LIGHT) {
                     appStore.setDarkMode(false);
                     defaultToastBackgroundColor = Colors.black;

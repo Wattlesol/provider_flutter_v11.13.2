@@ -131,6 +131,7 @@ class AppTheme {
     primaryColor: primaryColor,
     colorScheme: ColorScheme.fromSeed(
       seedColor: primaryColor,
+      primary: primaryColor,
       outlineVariant: borderColor,
     ),
     scaffoldBackgroundColor: Colors.white,
@@ -152,18 +153,42 @@ class AppTheme {
     ),
     cardColor: cardColor,
     appBarTheme: AppBarTheme(
+        backgroundColor: null, // Use dynamic primaryColor
+        foregroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: false,
+        titleTextStyle: TextStyle(
+          color: Colors.white,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+          fontFamily: headlineFontFamily,
+        ),
         systemOverlayStyle: SystemUiOverlayStyle(
             statusBarIconBrightness: Brightness.light,
-            statusBarColor: primaryColor)),
+            statusBarColor: null)), // Use dynamic primaryColor
     dialogTheme: DialogThemeData(
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.transparent,
         shape: dialogShape()),
     navigationBarTheme: NavigationBarThemeData(
-        labelTextStyle: MaterialStateProperty.all(primaryTextStyle(size: 10))),
+        labelTextStyle: WidgetStateProperty.all(primaryTextStyle(size: 10))),
     checkboxTheme: CheckboxThemeData(
-      checkColor: MaterialStateProperty.all(Colors.white),
-      fillColor: MaterialStateProperty.all(Colors.white),
+      checkColor: WidgetStateProperty.all(Colors.white),
+      fillColor: WidgetStateProperty.all(Colors.white),
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: primaryColor,
+      foregroundColor: Colors.white,
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
     ),
     pageTransitionsTheme: PageTransitionsTheme(
       builders: <TargetPlatform, PageTransitionsBuilder>{
@@ -180,12 +205,24 @@ class AppTheme {
     primaryColor: primaryColor,
     colorScheme: ColorScheme.fromSeed(
       seedColor: primaryColor,
+      primary: primaryColor,
+      brightness: Brightness.dark,
       outlineVariant: borderColor.withValues(alpha: 0.4),
     ),
     appBarTheme: AppBarTheme(
+      backgroundColor: null, // Use dynamic primaryColor
+      foregroundColor: Colors.white,
+      elevation: 0,
+      centerTitle: false,
+      titleTextStyle: TextStyle(
+        color: Colors.white,
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+        fontFamily: headlineFontFamily,
+      ),
       systemOverlayStyle: SystemUiOverlayStyle(
           statusBarIconBrightness: Brightness.light,
-          statusBarColor: primaryColor),
+          statusBarColor: null), // Use dynamic primaryColor
     ),
     scaffoldBackgroundColor: scaffoldColorDark,
     fontFamily: primaryFontFamily,
@@ -207,11 +244,25 @@ class AppTheme {
         surfaceTintColor: Colors.transparent,
         shape: dialogShape()),
     checkboxTheme: CheckboxThemeData(
-      checkColor: MaterialStateProperty.all(Colors.white),
-      fillColor: MaterialStateProperty.all(Colors.white),
+      checkColor: WidgetStateProperty.all(Colors.white),
+      fillColor: WidgetStateProperty.all(Colors.white),
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: primaryColor,
+      foregroundColor: Colors.white,
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
     ),
     navigationBarTheme: NavigationBarThemeData(
-        labelTextStyle: MaterialStateProperty.all(
+        labelTextStyle: WidgetStateProperty.all(
             primaryTextStyle(size: 10, color: Colors.white))),
     pageTransitionsTheme: PageTransitionsTheme(
       builders: <TargetPlatform, PageTransitionsBuilder>{

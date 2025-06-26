@@ -26,7 +26,8 @@ class _WalletCardState extends State<WalletCard> {
       height: 130,
       width: context.width(),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10), color: primaryColor),
+          borderRadius: BorderRadius.circular(10),
+          color: primaryColor), // Uses centralized color system
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -53,19 +54,19 @@ class _WalletCardState extends State<WalletCard> {
             ),
           ),
           TextIcon(
-            onTap: (){
-                WithdrawRequest(
-                  availableBalance: widget.availableBalance,
-                ).launch(context).then(widget.callback?? (val){});
-              },
-              suffix:CachedImageWidget(
+            onTap: () {
+              WithdrawRequest(
+                availableBalance: widget.availableBalance,
+              ).launch(context).then(widget.callback ?? (val) {});
+            },
+            suffix: CachedImageWidget(
               url: ic_plus,
               height: 16,
               width: 16,
               color: white,
             ),
             textStyle: secondaryTextStyle(color: white),
-              text: languages.withdraw,
+            text: languages.withdraw,
           ),
         ],
       ),

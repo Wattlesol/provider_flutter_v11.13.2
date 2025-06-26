@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:handyman_provider_flutter/app_theme.dart';
 import 'package:handyman_provider_flutter/main.dart';
 import 'package:handyman_provider_flutter/models/revenue_chart_data.dart';
 import 'package:handyman_provider_flutter/utils/configs.dart';
@@ -14,7 +15,11 @@ class ChartComponent extends StatelessWidget {
       margin: EdgeInsets.only(top: 8),
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: SfCartesianChart(
-        zoomPanBehavior: ZoomPanBehavior(enableDoubleTapZooming: true, zoomMode: ZoomMode.xy, enablePinching: true, enablePanning: true),
+        zoomPanBehavior: ZoomPanBehavior(
+            enableDoubleTapZooming: true,
+            zoomMode: ZoomMode.xy,
+            enablePinching: true,
+            enablePanning: true),
         enableAxisAnimation: true,
         legend: Legend(
           isVisible: true,
@@ -22,7 +27,10 @@ class ChartComponent extends StatelessWidget {
           orientation: LegendItemOrientation.auto,
           position: LegendPosition.top,
           legendItemBuilder: (legendText, series, point, seriesIndex) {
-            return Text('${languages.monthly} $legendText in ${appConfigurationStore.currencySymbol}', style: boldTextStyle()).paddingBottom(8);
+            return Text(
+                    '${languages.monthly} $legendText in ${appConfigurationStore.currencySymbol}',
+                    style: boldTextStyle())
+                .paddingBottom(8);
           },
         ),
         margin: EdgeInsets.fromLTRB(16, 4, 16, 16),
@@ -30,8 +38,10 @@ class ChartComponent extends StatelessWidget {
           textStyle: secondaryTextStyle(),
         ),
         backgroundColor: context.cardColor,
-        primaryYAxis: NumericAxis(numberFormat: NumberFormat.compactCurrency(symbol: appConfigurationStore.currencySymbol, decimalDigits: 2),
-          labelStyle: primaryTextStyle(size: 12)),
+        primaryYAxis: NumericAxis(
+            numberFormat: NumberFormat.compactCurrency(
+                symbol: appConfigurationStore.currencySymbol, decimalDigits: 2),
+            labelStyle: primaryTextStyle(size: 12)),
         primaryXAxis: CategoryAxis(
           placeLabelsNearAxisLine: true,
           labelPlacement: LabelPlacement.onTicks,
@@ -49,10 +59,7 @@ class ChartComponent extends StatelessWidget {
           hideDelay: 4000,
           activationMode: ActivationMode.singleTap,
           tooltipSettings: InteractiveTooltip(
-            enable: true,
-            format: 'point.x : point.y',
-            canShowMarker: true
-          ),
+              enable: true, format: 'point.x : point.y', canShowMarker: true),
         ),
         tooltipBehavior: TooltipBehavior(
           enable: true,
@@ -65,7 +72,7 @@ class ChartComponent extends StatelessWidget {
             name: languages.lblRevenue,
             dataSource: chartData,
             enableTooltip: true,
-            color: primaryColor,
+            color: context.brandColors.brandBlue,
             legendIconType: LegendIconType.diamond,
             splineType: SplineType.monotonic,
             yValueMapper: (RevenueChartData sales, _) => sales.revenue,

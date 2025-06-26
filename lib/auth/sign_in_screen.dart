@@ -15,6 +15,7 @@ import 'package:handyman_provider_flutter/models/user_data.dart';
 import 'package:handyman_provider_flutter/provider/provider_dashboard_screen.dart';
 import 'package:handyman_provider_flutter/utils/colors.dart';
 import 'package:handyman_provider_flutter/utils/common.dart';
+import 'package:handyman_provider_flutter/utils/configs.dart';
 import 'package:handyman_provider_flutter/utils/constant.dart';
 import 'package:handyman_provider_flutter/utils/extensions/string_extension.dart';
 import 'package:handyman_provider_flutter/utils/font_utils.dart';
@@ -289,7 +290,7 @@ class _SignInScreenState extends State<SignInScreen> {
               child: Text(
                 languages.forgotPassword,
                 style: FontUtils.buttonStyle(
-                  color: context.brandColors.brandRed,
+                  color: secondaryColor, // Uses centralized color system
                 ).copyWith(fontStyle: FontStyle.italic),
                 textAlign: TextAlign.right,
               ),
@@ -314,7 +315,7 @@ class _SignInScreenState extends State<SignInScreen> {
         AppButton(
           text: languages.signIn,
           height: 40,
-          color: context.brandColors.brandBlue,
+          color: primaryColor, // Uses centralized color system
           textStyle: FontUtils.buttonStyle(color: white),
           width: context.width() - context.navigationBarHeight,
           onTap: () {
@@ -333,7 +334,7 @@ class _SignInScreenState extends State<SignInScreen> {
               child: Text(
                 languages.signUp,
                 style: FontUtils.buttonStyle(
-                  color: context.brandColors.brandBlue,
+                  color: primaryColor, // Uses centralized color system
                 ).copyWith(
                   decoration: TextDecoration.underline,
                   fontStyle: FontStyle.italic,

@@ -2,12 +2,48 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:handyman_provider_flutter/main.dart';
 import 'package:handyman_provider_flutter/utils/colors.dart';
+import 'package:handyman_provider_flutter/utils/constant.dart';
 
 const APP_NAME = 'Kangoo Provider';
 const DEFAULT_LANGUAGE = 'en';
 
-// Dynamic primary color based on theme
-Color get primaryColor => appStore.isDarkMode ? brandBlueDark : brandBlueLight;
+// Dynamic primary color based on user type and theme
+Color get primaryColor {
+  if (appStore.userType == USER_TYPE_HANDYMAN) {
+    // Handyman uses green
+    return appStore.isDarkMode ? brandGreenDark : brandGreenLight;
+  } else {
+    // Provider uses red
+    return appStore.isDarkMode ? brandRedDark : brandRedLight;
+  }
+}
+
+// Helper getters for easy access to current primary color variations
+Color get primaryColorLight => primaryColor.withValues(alpha: 0.1);
+Color get primaryColorMedium => primaryColor.withValues(alpha: 0.3);
+Color get primaryColorDark => primaryColor.withValues(alpha: 0.8);
+
+// Secondary color for complementary UI elements
+Color get secondaryColor {
+  if (appStore.userType == USER_TYPE_HANDYMAN) {
+    // Handyman secondary: blue
+    return appStore.isDarkMode ? brandBlueDark : brandBlueLight;
+  } else {
+    // Provider secondary: yellow
+    return appStore.isDarkMode ? brandYellowDark : brandYellowLight;
+  }
+}
+
+// Accent color for highlights and special elements
+Color get accentColor {
+  if (appStore.userType == USER_TYPE_HANDYMAN) {
+    // Handyman accent: yellow
+    return appStore.isDarkMode ? brandYellowDark : brandYellowLight;
+  } else {
+    // Provider accent: blue
+    return appStore.isDarkMode ? brandBlueDark : brandBlueLight;
+  }
+}
 
 /// Live Url
 const DOMAIN_URL = "https://kangoo.wattlesol.com";

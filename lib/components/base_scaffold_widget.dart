@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:handyman_provider_flutter/app_theme.dart';
+import 'package:handyman_provider_flutter/utils/colors.dart';
+import 'package:handyman_provider_flutter/utils/configs.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../utils/constant.dart';
@@ -32,7 +35,7 @@ class AppScaffold extends StatelessWidget {
                   style: boldTextStyle(
                       color: Colors.white, size: APP_BAR_TEXT_SIZE)),
               elevation: 0.0,
-              backgroundColor: context.primaryColor,
+              backgroundColor: primaryColor, // Uses centralized color system
               leading: context.canPop ? BackWidget() : null,
               actions: actions,
             )

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:handyman_provider_flutter/app_theme.dart';
 import 'package:handyman_provider_flutter/main.dart';
 import 'package:handyman_provider_flutter/utils/common.dart';
 import 'package:handyman_provider_flutter/utils/configs.dart';
@@ -40,8 +41,14 @@ class NewUpdateDialog extends StatelessWidget {
                 children: [
                   AppButton(
                     text: canClose ? languages.later : languages.closeApp,
-                    textStyle: boldTextStyle(color: primaryColor, size: 14),
-                    shapeBorder: RoundedRectangleBorder(borderRadius: radius(), side: BorderSide(color: primaryColor)),
+                    textStyle: boldTextStyle(
+                        color: primaryColor,
+                        size: 14), // Uses centralized color system
+                    shapeBorder: RoundedRectangleBorder(
+                        borderRadius: radius(),
+                        side: BorderSide(
+                            color:
+                                primaryColor)), // Uses centralized color system
                     elevation: 0,
                     onTap: () async {
                       if (canClose) {
@@ -92,7 +99,8 @@ class NewUpdateDialog extends StatelessWidget {
         ),
         Positioned(
           top: -42,
-          child: Image.asset(imgForceUpdate, height: 100, width: 100, fit: BoxFit.cover),
+          child: Image.asset(imgForceUpdate,
+              height: 100, width: 100, fit: BoxFit.cover),
         ),
       ],
     );

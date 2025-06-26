@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:handyman_provider_flutter/utils/configs.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class TotalWidget extends StatelessWidget {
@@ -7,13 +8,17 @@ class TotalWidget extends StatelessWidget {
   final String icon;
   final Color? color;
 
-  TotalWidget({required this.title, required this.total, required this.icon, this.color});
+  TotalWidget(
+      {required this.title,
+      required this.total,
+      required this.icon,
+      this.color});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-      decoration: boxDecorationDefault(color: context.primaryColor),
+      decoration: boxDecorationDefault(color: color ?? primaryColor),
       width: context.width() / 2 - 24,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -24,18 +29,25 @@ class TotalWidget extends StatelessWidget {
               SizedBox(
                 width: context.width() / 2 - 94,
                 child: Marquee(
-                  child: Marquee(child: Text(total.validate(), style: boldTextStyle(color: Colors.white, size: 16), maxLines: 1)),
+                  child: Marquee(
+                      child: Text(total.validate(),
+                          style: boldTextStyle(color: Colors.white, size: 16),
+                          maxLines: 1)),
                 ),
               ),
               Container(
                 padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
-                child: Image.asset(icon, width: 18, height: 18, color: context.primaryColor),
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                child: Image.asset(icon,
+                    width: 18, height: 18, color: color ?? primaryColor),
               ),
             ],
           ),
           8.height,
-          Marquee(child: Text(title, style: secondaryTextStyle(size: 14, color: Colors.white))),
+          Marquee(
+              child: Text(title,
+                  style: secondaryTextStyle(size: 14, color: Colors.white))),
         ],
       ),
     );

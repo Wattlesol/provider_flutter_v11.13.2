@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:handyman_provider_flutter/app_theme.dart';
 import 'package:handyman_provider_flutter/components/app_widgets.dart';
 import 'package:handyman_provider_flutter/components/back_widget.dart';
 import 'package:handyman_provider_flutter/main.dart';
@@ -48,10 +49,14 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
 
   Future<void> init() async {
     serviceApprovalStatus = [
-      ServiceListApprovalStatusModel(status: ServiceListApprovalStatus.all, name: SERVICE_ALL),
-      ServiceListApprovalStatusModel(status: ServiceListApprovalStatus.pending, name: SERVICE_PENDING),
-      ServiceListApprovalStatusModel(status: ServiceListApprovalStatus.approved, name: SERVICE_APPROVE),
-      ServiceListApprovalStatusModel(status: ServiceListApprovalStatus.reject, name: SERVICE_REJECT),
+      ServiceListApprovalStatusModel(
+          status: ServiceListApprovalStatus.all, name: SERVICE_ALL),
+      ServiceListApprovalStatusModel(
+          status: ServiceListApprovalStatus.pending, name: SERVICE_PENDING),
+      ServiceListApprovalStatusModel(
+          status: ServiceListApprovalStatus.approved, name: SERVICE_APPROVE),
+      ServiceListApprovalStatusModel(
+          status: ServiceListApprovalStatus.reject, name: SERVICE_REJECT),
     ];
 
     selectedTab = serviceApprovalStatus.first;
@@ -71,14 +76,22 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
       },
     );
   }
+
   List<ServiceListApprovalStatusModel> servicesRequestStatus = [];
 
   Future<void> getFilterList() async {
     servicesRequestStatus = [
-      ServiceListApprovalStatusModel(status: ServiceListApprovalStatus.all, name: ServiceRequestKey.all),
-      ServiceListApprovalStatusModel(status: ServiceListApprovalStatus.pending, name: ServiceRequestKey.pending),
-      ServiceListApprovalStatusModel(status: ServiceListApprovalStatus.approved, name: ServiceRequestKey.approve),
-      ServiceListApprovalStatusModel(status: ServiceListApprovalStatus.reject, name: ServiceRequestKey.reject),
+      ServiceListApprovalStatusModel(
+          status: ServiceListApprovalStatus.all, name: ServiceRequestKey.all),
+      ServiceListApprovalStatusModel(
+          status: ServiceListApprovalStatus.pending,
+          name: ServiceRequestKey.pending),
+      ServiceListApprovalStatusModel(
+          status: ServiceListApprovalStatus.approved,
+          name: ServiceRequestKey.approve),
+      ServiceListApprovalStatusModel(
+          status: ServiceListApprovalStatus.reject,
+          name: ServiceRequestKey.reject),
     ];
 
     selectedTab = servicesRequestStatus.first;
@@ -109,7 +122,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
       appBar: appBarWidget(
         languages.lblAllService,
         textColor: white,
-        color: context.primaryColor,
+        color: context.brandColors.brandBlue,
         backWidget: BackWidget(),
         textSize: APP_BAR_TEXT_SIZE,
         actions: [
@@ -118,13 +131,15 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
               changeListType = !changeListType;
               setState(() {});
             },
-            icon: Image.asset(changeListType ? list : grid, height: 20, width: 20),
+            icon: Image.asset(changeListType ? list : grid,
+                height: 20, width: 20),
           ),
           IconButton(
             onPressed: () async {
               bool? res;
 
-              res = await AddServices().launch(context, pageRouteAnimation: PageRouteAnimation.Fade);
+              res = await AddServices()
+                  .launch(context, pageRouteAnimation: PageRouteAnimation.Fade);
 
               if (res ?? false) {
                 selectedTab = serviceApprovalStatus.first;
@@ -149,9 +164,13 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                 },
                 decoration: InputDecoration(
                   hintText: languages.lblSearchHere,
-                  prefixIcon: Icon(Icons.search, color: context.iconColor, size: 20),
+                  prefixIcon:
+                      Icon(Icons.search, color: context.iconColor, size: 20),
                   hintStyle: secondaryTextStyle(),
-                  border: OutlineInputBorder(borderRadius: radius(8), borderSide: BorderSide(width: 0, style: BorderStyle.none)),
+                  border: OutlineInputBorder(
+                      borderRadius: radius(8),
+                      borderSide:
+                          BorderSide(width: 0, style: BorderStyle.none)),
                   filled: true,
                   contentPadding: EdgeInsets.all(16),
                   fillColor: appStore.isDarkMode ? cardDarkColor : cardColor,
@@ -165,14 +184,19 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: serviceApprovalStatus.length,
                   itemBuilder: (ctx, index) {
-                    ServiceListApprovalStatusModel serviceStatus = serviceApprovalStatus[index];
+                    ServiceListApprovalStatusModel serviceStatus =
+                        serviceApprovalStatus[index];
                     return Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         FilterChip(
                           shape: RoundedRectangleBorder(
                             borderRadius: radius(8),
-                            side: BorderSide(color: selectedTab.status == serviceStatus.status ? primaryColor : Colors.transparent),
+                            side: BorderSide(
+                                color:
+                                    selectedTab.status == serviceStatus.status
+                                        ? primaryColor
+                                        : Colors.transparent),
                           ),
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           label: Text(
@@ -187,7 +211,10 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                             ),
                           ),
                           selected: false,
-                          backgroundColor: selectedTab.status == serviceStatus.status ? lightPrimaryColor : context.cardColor,
+                          backgroundColor:
+                              selectedTab.status == serviceStatus.status
+                                  ? lightPrimaryColor
+                                  : context.cardColor,
                           onSelected: (bool selected) {
                             selectedTab = serviceApprovalStatus[index];
                             setPageToOne(status: selectedTab.name);
@@ -210,7 +237,10 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                     },
                   );
                 },
-                loadingWidget: ServiceListShimmer(width: changeListType ? context.width() : context.width() * 0.5 - 24),
+                loadingWidget: ServiceListShimmer(
+                    width: changeListType
+                        ? context.width()
+                        : context.width() * 0.5 - 24),
                 onSuccess: (list) {
                   if (list.isEmpty) {
                     return NoDataWidget(
@@ -222,7 +252,8 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
 
                   return AnimatedScrollView(
                     listAnimationType: ListAnimationType.FadeIn,
-                    fadeInConfiguration: FadeInConfiguration(duration: 2.seconds),
+                    fadeInConfiguration:
+                        FadeInConfiguration(duration: 2.seconds),
                     physics: AlwaysScrollableScrollPhysics(),
                     onSwipeRefresh: () async {
                       page = 1;
@@ -244,21 +275,30 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                       if (services.isNotEmpty)
                         Container(
                           alignment: Alignment.topLeft,
-                          padding: EdgeInsets.only(left: 16, right: 16, top: 4, bottom: 24),
+                          padding: EdgeInsets.only(
+                              left: 16, right: 16, top: 4, bottom: 24),
                           child: AnimatedWrap(
                             spacing: 16.0,
                             runSpacing: 16.0,
-                            scaleConfiguration: ScaleConfiguration(duration: 400.milliseconds, delay: 50.milliseconds),
+                            scaleConfiguration: ScaleConfiguration(
+                                duration: 400.milliseconds,
+                                delay: 50.milliseconds),
                             listAnimationType: ListAnimationType.FadeIn,
-                            fadeInConfiguration: FadeInConfiguration(duration: 2.seconds),
+                            fadeInConfiguration:
+                                FadeInConfiguration(duration: 2.seconds),
                             alignment: WrapAlignment.start,
                             itemCount: services.length,
                             itemBuilder: (context, index) {
                               return ServiceComponent(
                                 data: services[index],
-                                width: changeListType ? context.width() : context.width() * 0.5 - 24,
+                                width: changeListType
+                                    ? context.width()
+                                    : context.width() * 0.5 - 24,
                                 changeList: changeListType,
-                                  showApprovalStatus: selectedTab.status == ServiceListApprovalStatus.all && services[index].serviceRequestStatus != ServiceRequestKey.approve,
+                                showApprovalStatus: selectedTab.status ==
+                                        ServiceListApprovalStatus.all &&
+                                    services[index].serviceRequestStatus !=
+                                        ServiceRequestKey.approve,
                                 onCallBack: () {
                                   page = 1;
                                   appStore.setLoading(true);
@@ -266,7 +306,11 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                                   setState(() {});
                                 },
                               ).onTap(() async {
-                                await ServiceDetailScreen(serviceId: services[index].id.validate()).launch(context).then((value) {
+                                await ServiceDetailScreen(
+                                        serviceId:
+                                            services[index].id.validate())
+                                    .launch(context)
+                                    .then((value) {
                                   if (value != null) {
                                     setPageToOne();
                                   }
@@ -281,7 +325,8 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
               ).expand(),
             ],
           ),
-          Observer(builder: (context) => LoaderWidget().visible(appStore.isLoading))
+          Observer(
+              builder: (context) => LoaderWidget().visible(appStore.isLoading))
         ],
       ),
     );

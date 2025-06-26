@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:handyman_provider_flutter/app_theme.dart';
 import 'package:handyman_provider_flutter/handyman/component/handyman_total_widget.dart';
 import 'package:handyman_provider_flutter/main.dart';
 import 'package:handyman_provider_flutter/models/handyman_dashboard_response.dart';
@@ -24,6 +25,7 @@ class HandymanTotalComponent extends StatelessWidget {
           title: languages.lblTotalBooking,
           total: snap.totalBooking.validate().toString(),
           icon: total_services,
+          color: context.brandColors.brandBlue, // Blue for total bookings
         ).onTap(
           () {
             LiveStream().emit(LIVESTREAM_CHANGE_HANDYMAN_TAB, {"index": 1});
@@ -35,9 +37,11 @@ class HandymanTotalComponent extends StatelessWidget {
           title: languages.completedBookings,
           total: snap.completedBooking.validate().toString(),
           icon: total_services,
+          color: context.brandColors.brandGreen, // Green for completed bookings
         ).onTap(
           () {
-            LiveStream().emit(LIVESTREAM_CHANGE_HANDYMAN_TAB, {"index": 1, "booking_type": BookingStatusKeys.complete});
+            LiveStream().emit(LIVESTREAM_CHANGE_HANDYMAN_TAB,
+                {"index": 1, "booking_type": BookingStatusKeys.complete});
           },
           highlightColor: Colors.transparent,
           splashColor: Colors.transparent,
@@ -46,11 +50,13 @@ class HandymanTotalComponent extends StatelessWidget {
           title: languages.remainingPayout,
           total: snap.remainingPayout.validate().toPriceFormat().toString(),
           icon: percent_line,
+          color: context.brandColors.brandYellow, // Yellow for pending payout
         ),
         HandymanTotalWidget(
           title: languages.totalRevenue,
           total: snap.totalRevenue.validate().toPriceFormat(),
           icon: percent_line,
+          color: context.brandColors.brandRed, // Red for total revenue
         ).onTap(
           () {
             TotalEarningScreen().launch(context);
