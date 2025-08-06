@@ -8,6 +8,7 @@ import 'package:handyman_provider_flutter/fragments/notification_fragment.dart';
 import 'package:handyman_provider_flutter/main.dart';
 import 'package:handyman_provider_flutter/provider/fragments/provider_home_fragment.dart';
 import 'package:handyman_provider_flutter/provider/fragments/provider_profile_fragment.dart';
+import 'package:handyman_provider_flutter/provider/fragments/provider_store_fragment.dart';
 import 'package:handyman_provider_flutter/screens/chat/user_chat_list_screen.dart';
 import 'package:handyman_provider_flutter/utils/colors.dart';
 import 'package:handyman_provider_flutter/utils/configs.dart';
@@ -39,6 +40,7 @@ class ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
   List<Widget> fragmentList = [
     ProviderHomeFragment(),
     BookingFragment(),
+    ProviderStoreFragment(),
     if (appConfigurationStore.isEnableChat) ChatListScreen(),
     ProviderProfileFragment(),
   ];
@@ -96,7 +98,8 @@ class ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
           [
             languages.providerHome,
             languages.lblBooking,
-            languages.lblChat,
+            'Store',
+            if (appConfigurationStore.isEnableChat) languages.lblChat,
             languages.lblProfile,
           ][currentIndex],
           color: primaryColor, // Uses centralized color system
@@ -208,6 +211,12 @@ class ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                   selectedIcon: fill_ticket.iconImage(
                       color: primaryColor), // Uses centralized color
                   label: languages.lblBooking,
+                ),
+                NavigationDestination(
+                  icon: purchase.iconImage(color: appTextSecondaryColor),
+                  selectedIcon: purchase.iconImage(
+                      color: primaryColor), // Uses centralized color
+                  label: 'Store',
                 ),
                 if (appConfigurationStore.isEnableChat)
                   NavigationDestination(
