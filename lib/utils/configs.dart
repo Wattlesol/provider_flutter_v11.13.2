@@ -46,9 +46,8 @@ Color get accentColor {
 }
 
 /// Live Url
-// const DOMAIN_URL = "https://kangoo.wattlesol.com";
-const DOMAIN_URL =
-    "http://10.0.2.2:8000"; // Android Emulator special IP for host machine
+const DOMAIN_URL = "https://handyman.wattlesol.com";
+// const DOMAIN_URL = "http://10.0.2.2:8000";
 
 const BASE_URL = "$DOMAIN_URL/api/";
 

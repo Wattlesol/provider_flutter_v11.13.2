@@ -60,9 +60,20 @@ class _ProductListScreenState extends State<ProductListScreen> {
       appStore.setLoading(false);
 
       if (page == 1) products.clear();
-      products.addAll(response.data ?? []);
 
-      isLastPage = (response.data?.length ?? 0) < PER_PAGE_ITEM;
+      // Server may ignore approval_status filter; apply client-side filter as a safeguard
+      final fetched = response.data ?? [];
+      List<ProductData> filtered = fetched;
+      if (status.isNotEmpty) {
+        filtered = fetched
+            .where((p) => p.approvalStatus?.toLowerCase() == status)
+            .toList();
+      }
+
+      products.addAll(filtered);
+
+      // Determine last page based on server page size, not filtered size
+      isLastPage = fetched.length < PER_PAGE_ITEM;
       setState(() {});
 
       return response;
